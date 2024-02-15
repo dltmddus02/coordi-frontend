@@ -44,8 +44,11 @@ export default function Result() {
   return (
     <main className="mt-4 ml-4">
       <Title>추천 코디</Title>
-      <button onClick={refreshRecommendation} className="mb-4">
-        코디 추천하기
+      <button
+        onClick={refreshRecommendation}
+        className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500 rounded-md"
+        style={{width: '13rem', height: '2rem'}}>
+        <p className="text-sm">결과를 보려면 클릭해주세요!</p>
       </button>
       <div className="flex flex-row">
         {/* 상의 3벌 데이터 가져오기 */}
