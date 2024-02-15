@@ -58,9 +58,13 @@ export default function Result() {
     <main className="mt-4 ml-4">
       <Title>추천 코디</Title>
       <button
+<<<<<<< HEAD
         type="submit"
         onClick={refreshRecommendation}
         onChange={uploadTop3Image}
+=======
+        onClick={refreshRecommendation}
+>>>>>>> 425b0c9aae90d491ca66b5fc5b8d665207991112
         className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500 rounded-md"
         style={{width: '13rem', height: '2rem'}}>
         <p className="text-sm">결과를 보려면 클릭해주세요!</p>
