@@ -6,8 +6,10 @@ import axios from 'axios'
 export default function Result() {
   const [resultData, setResultData] = useState({
     k: 0, // 상위 k개
-    upper: [], // 상의 feature 상대경로 주소
-    lower: [] // 하의 feature 상대경로 주소
+    upper: [], // 상의 이미지 주소
+    lower: [], // 하의 이미지 주소
+    upper_shopping: [],
+    lower_shopping: []
   })
 
   /* 백엔드에서 데이터 가져오기 */
@@ -34,7 +36,9 @@ export default function Result() {
         setResultData({
           k: response.data.k,
           upper: response.data.topk_upper,
-          lower: response.data.topk_lower
+          lower: response.data.topk_lower,
+          upper_shopping: response.data.topk_shopping_upper,
+          lower_shopping: response.data.topk_shopping_lower
         })
         console.log(response.data)
         // 데이터 화면에 표시
@@ -65,7 +69,6 @@ export default function Result() {
               <Subtitle>상의 {index + 1}</Subtitle>
               <p className="mt-4 ml-4">
                 {/* 이미지 url 가져오기 */}
-                {/* <img src={upper_path} */}
                 <img
                   src={upper_path}
                   width={100}
@@ -76,7 +79,7 @@ export default function Result() {
                 <div className="mt-3 text-sm font-bold">
                   <a
                     key={index}
-                    href={upper_path}
+                    href={resultData.upper_shopping[index]}
                     target="_blank"
                     rel="noopener noreferrer">
                     상의 링크
@@ -104,7 +107,7 @@ export default function Result() {
                 <div className="mt-3 text-sm font-bold">
                   <a
                     key={index}
-                    href={lower_path}
+                    href={resultData.lower_shopping[index]}
                     target="_blank"
                     rel="noopener noreferrer">
                     하의 링크
