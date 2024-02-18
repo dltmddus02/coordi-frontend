@@ -5,22 +5,10 @@ import axios from 'axios'
 
 export default function Result() {
   const [resultData, setResultData] = useState({
-    count: 0,
-    upper: [],
-    lower: []
+    k: 0, // 상위 k개
+    upper: [], // 상의 feature 상대경로 주소
+    lower: [] // 하의 feature 상대경로 주소
   })
-
-  // /* 백엔드에서 데이터 가져오기 */
-  // useEffect(() => {
-  //   axios
-  //     .get('http://127.0.0.1:8000/api/upload/')
-  //     .then(response => {
-  //       setResultData(response.data)
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching data:', error)
-  //     })
-  // }, [])
 
   /* 백엔드에서 데이터 가져오기 */
   useEffect(() => {
@@ -38,15 +26,17 @@ export default function Result() {
       })
   }
 
-  const refreshRecommendation = () => {
-    fetchData('http://127.0.0.1:8000/api/result/')
-  }
-
   const uploadTop3Image = () => {
     axios
-      .post('http://127.0.0.1:8000/api/result/')
+      .get('http://127.0.0.1:8000/api/result/')
       .then(response => {
-        console.log(response.data.topk)
+        console.log('여기왔음')
+        setResultData({
+          k: response.data.k,
+          upper: response.data.topk_upper,
+          lower: response.data.topk_lower
+        })
+        console.log(response.data)
         // 데이터 화면에 표시
       })
       .catch(error => {
@@ -58,36 +48,39 @@ export default function Result() {
     <main className="mt-4 ml-4">
       <Title>추천 코디</Title>
       <button
-<<<<<<< HEAD
         type="submit"
-        onClick={refreshRecommendation}
-        onChange={uploadTop3Image}
-=======
-        onClick={refreshRecommendation}
->>>>>>> 425b0c9aae90d491ca66b5fc5b8d665207991112
+        onClick={async () => {
+          // await refreshRecommendation()
+          await uploadTop3Image()
+        }}
         className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500 rounded-md"
         style={{width: '13rem', height: '2rem'}}>
         <p className="text-sm">결과를 보려면 클릭해주세요!</p>
       </button>
       <div className="flex flex-row">
         {/* 상의 3벌 데이터 가져오기 */}
-        {resultData.upper.map((upper, index) => (
+        {resultData.upper.map((upper_path, index) => (
           <section key={index} className="mt-6 mr-4">
             <div>
               <Subtitle>상의 {index + 1}</Subtitle>
               <p className="mt-4 ml-4">
                 {/* 이미지 url 가져오기 */}
+                {/* <img src={upper_path} */}
                 <img
-                  // src={upper.image_url}
+                  src={upper_path}
                   width={100}
                   height={100}
                   alt={`Upper ${index + 1}`}
                 />
                 {/* 구매링크 가져오기 */}
                 <div className="mt-3 text-sm font-bold">
-                  {/* <a href={upper.shopping_url} target="_blank" rel="noopener noreferrer"> */}
-                  {/* 구매 링크 */}
-                  {/* </a> */}
+                  <a
+                    key={index}
+                    href={upper_path}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    상의 링크
+                  </a>
                 </div>
               </p>
             </div>
@@ -95,23 +88,27 @@ export default function Result() {
         ))}
 
         {/* 하의 3벌 데이터 가져오기 */}
-        {resultData.lower.map((lower, index) => (
+        {resultData.lower.map((lower_path, index) => (
           <section key={index} className="mt-6 mr-4">
             <div>
               <Subtitle>하의 {index + 1}</Subtitle>
               <p className="mt-4 ml-4">
                 {/* 이미지 url 가져오기 */}
                 <img
-                  // src={lower.image_url}
+                  src={lower_path}
                   width={100}
                   height={100}
                   alt={`Lower ${index + 1}`}
                 />
                 {/* 구매링크 가져오기 */}
                 <div className="mt-3 text-sm font-bold">
-                  {/* <a href={lower.shopping_url} target="_blank" rel="noopener noreferrer"> */}
-                  {/* 구매 링크 */}
-                  {/* </a> */}
+                  <a
+                    key={index}
+                    href={lower_path}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    하의 링크
+                  </a>
                 </div>
               </p>
             </div>
