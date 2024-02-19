@@ -40,10 +40,6 @@ export default function MyImages() {
     const formData = new FormData()
     formData.append('image', imageFile)
 
-    // console.log(formData)
-    // for (let value of formData.values()) {
-    //   console.log(value)
-    // }
     try {
       const response = await axios.post('/api/upload/', formData, {
         headers: {
@@ -55,10 +51,7 @@ export default function MyImages() {
       console.log(response.data.message)
       console.log('완ㅋ')
       console.log(response.data)
-      // console.log('response.data : ' + response.data.imageUrl)
       makeImageUrls([imageFile])
-
-      // setImageUrls(prevImageUrls => [...prevImageUrls, response.data.imageUrl])
     } catch (error) {
       // 오류 처리
       console.error(error)
@@ -75,17 +68,6 @@ export default function MyImages() {
     }
   }
 
-  // // <input type="file"> 값 변경될 때 호출
-  // const onInputChange = useCallback(
-  //   (e: ChangeEvent<HTMLInputElement>) => {
-  //     setError(null)
-  //     const files = e.target.files
-  //     files && makeImageUrls(Array.from(files))
-  //   },
-  //   [makeImageUrls]
-  // )
-
-  // <div> 엘리먼트 위에 드래그 중일 때 호출
   const onDivDragOver = useCallback((e: DragEvent) => e.preventDefault(), [])
 
   // <div> 엘리먼트 위에 파일 드롭할 때 호출
@@ -164,12 +146,10 @@ export default function MyImages() {
           <input
             ref={inputRef}
             onChange={onImageUpload}
-            // onChange={onInputChange}
             multiple
             className="hidden"
             type="file"
             accept="image/*"
-            // accept=".jpg, .png"
             name="image"
           />
         </div>

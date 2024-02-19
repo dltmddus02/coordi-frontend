@@ -54,7 +54,6 @@ export default function Result() {
       <button
         type="submit"
         onClick={async () => {
-          // await refreshRecommendation()
           await uploadTop3Image()
         }}
         className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500 rounded-md"
