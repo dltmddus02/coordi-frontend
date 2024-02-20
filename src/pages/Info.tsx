@@ -1,6 +1,7 @@
 import {useMemo, useCallback, useState} from 'react'
 import type {ChangeEvent} from 'react'
 import {Title, Subtitle} from '../components'
+// import axios, {formToJSON} from 'axios'
 import axios from 'axios'
 
 export default function Info() {
@@ -21,15 +22,14 @@ export default function Info() {
   )
 
   const colorMapping: {[key: string]: string} = {
-    '봄 웜 라이트': 'WSB',
-    '봄 웜 브라이트': 'WSL',
-    '여름 쿨 라이트': 'WAD',
-    '여름 쿨 뮤트': 'WAM',
-    '가을 웜 뮤트': 'CSL',
-    '가을 웜 딥': 'CSM',
-    '겨울 쿨 딥': 'CWB',
-    '겨울 쿨 브라이트': 'CWD'
-    // '모름': None,
+    '봄 웜 라이트': 'WSL',
+    '봄 웜 브라이트': 'WSB',
+    '여름 쿨 라이트': 'CSL',
+    '여름 쿨 뮤트': 'CSM',
+    '가을 웜 뮤트': 'WAM',
+    '가을 웜 딥': 'WAD',
+    '겨울 쿨 딥': 'CWD',
+    '겨울 쿨 브라이트': 'CWB'
   }
 
   /* 사용자가 선택한 버튼을 확인하기 위한 변수들 */
@@ -44,7 +44,12 @@ export default function Info() {
     const colorIdentifier = colorMapping[row]
     console.log(colorIdentifier)
     try {
-      const response = await axios.post('/api/upload/', {colorIdentifier})
+      const formData = new FormData()
+      formData.append('personal_color', colorIdentifier)
+      console.log(formData)
+      const response = await axios.post('/api/upload/', formData, {
+        headers: {'Content-Type': 'multipart/form-data'}
+      })
       console.log('성공', response.data)
     } catch (e) {
       console.error('백엔드로 퍼컬 정보 전송 오류!', e)
