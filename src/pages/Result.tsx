@@ -12,21 +12,14 @@ export default function Result() {
     lower_shopping: []
   })
 
-  /* 백엔드에서 데이터 가져오기 */
-  useEffect(() => {
-    fetchData('http://127.0.0.1:8000/api/upload/')
-  }, [])
-
-  const fetchData = (url: string) => {
-    axios
-      .get(url)
-      .then(response => {
-        setResultData(response.data)
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error)
-      })
-  }
+  const encodeFileToBase64 = (image: File) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(image);
+      reader.onload = (event: any) => resolve(event.target.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
   const uploadTop3Image = () => {
     axios

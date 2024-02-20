@@ -1,10 +1,11 @@
-import {useMemo, useCallback, useState} from 'react'
+import {useMemo, useCallback} from 'react'
 import type {ChangeEvent} from 'react'
 import {Title, Subtitle} from '../components'
 // import axios, {formToJSON} from 'axios'
 import axios from 'axios'
 
-export default function Info() {
+type colorState = {selectedColor: string, setSelectedColor: any}
+export default function Info({selectedColor, setSelectedColor} : colorState) {
   /* 퍼스널컬러 배열 설정 */
   const pColors = useMemo(
     () => [
@@ -33,10 +34,10 @@ export default function Info() {
   }
 
   /* 사용자가 선택한 버튼을 확인하기 위한 변수들 */
-  const [selectedColor, setSelectedColor] = useState<string>(pColors[0])
+  // const [selectedColor, setSelectedColor] = useState<string>(pColors[0])
 
   const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setSelectedColor(notUsed => e.target.value)
+    setSelectedColor(e.target.value)
   }, [])
 
   const sendRowIndexToBackend = async (row: string) => {
@@ -87,8 +88,7 @@ export default function Info() {
         {radioInputs.map((row, rowIndex) => (
           <div
             key={rowIndex}
-            className="font-semibold"
-            onClick={() => sendRowIndexToBackend(pColors[rowIndex])}>
+            className="font-semibold">
             {row}
           </div>
         ))}

@@ -5,36 +5,19 @@ import {Title, Div, Subtitle} from '../components'
 import {imageFileReaderP} from '../utils'
 import axios from 'axios'
 
-export default function MyImages() {
+
+type filesState = {files: File[], setFiles: React.Dispatch<React.SetStateAction<File[]>>};
+
+export default function MyImages({files, setFiles}: filesState) {
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const [error, setError] = useState<Error | null>(null)
-  const [loading, toggleLoading] = useToggle(false)
+  const [loading, setLoading] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null)
   const onDivClick = useCallback(() => inputRef.current?.click(), [])
 
-  const makeImageUrls = useCallback(
-    (files: File[]) => {
-      /* 이미지 파일 개수 제한 */
-      if (imageUrls.length + files.length > 9) {
-        setError(new Error('이미지는 최대 9개까지만 추가할 수 있습니다!'))
-        return
-      }
 
-      // 이미지 파일 처리 배열
-      const promises = Array.from(files).map(imageFileReaderP)
-      toggleLoading()
-      Promise.all(promises)
-        .then(urls => {
-          setImageUrls(prevImageUrls => [...prevImageUrls, ...urls])
-          toggleLoading()
-        })
-        .catch(setError)
-      // .finally(toggleLoading)
-    },
-    [imageUrls, toggleLoading]
-  )
-
+  
   // 이미지를 업로드할 때 호출
   const uploadImage = async (imageFile: File) => {
     const formData = new FormData()
@@ -51,7 +34,7 @@ export default function MyImages() {
       console.log(response.data.message)
       console.log('완ㅋ')
       console.log(response.data)
-      makeImageUrls([imageFile])
+      // makeImageUrls([imageFile])
     } catch (error) {
       // 오류 처리
       console.error(error)
@@ -60,34 +43,40 @@ export default function MyImages() {
 
   // 이미지를 업로드할 때 호출하는 함수
   const onImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    console.log(e + '  완')
-    if (files && files.length > 0) {
-      // 파일 업로드 1개만 가능
-      uploadImage(files[0]) // 첫 번째 파일을 업로드
+    const input_files = Array.from(e.target.files!);
+
+    if (input_files.length + files.length > 9) {
+      setError(new Error('이미지는 최대 9개까지만 추가할 수 있습니다!'));
     }
+    else {
+      setError(null);
+
+      // add urls
+      const promises = input_files.map(imageFileReaderP);
+      setLoading(true);
+      Promise.all(promises)
+      .then(urls => {
+        setImageUrls(prevImageUrls => [...prevImageUrls, ...urls]);
+        setFiles(prevFiles => [...prevFiles, ...input_files])
+        setLoading(false);
+      })
+      .catch(setError)
+      .finally(() => setLoading(false));
+
+    }
+    e.target.value = "";
   }
-
-  const onDivDragOver = useCallback((e: DragEvent) => e.preventDefault(), [])
-
-  // <div> 엘리먼트 위에 파일 드롭할 때 호출
-  const onDivDrop = useCallback(
-    (e: DragEvent) => {
-      e.preventDefault()
-      setError(null)
-      const files = e.dataTransfer?.files
-      files && makeImageUrls(Array.from(files))
-    },
-    [makeImageUrls]
-  )
 
   /* 이미지 업로드 취소 기능 추가하기 */
   const onCacelClick = useCallback(
-    (index: number) => {
-      const uploadedImages = [...imageUrls]
-      /* 해당 인덱스의 이미지 제거 */
-      uploadedImages.splice(index, 1)
-      setImageUrls(uploadedImages)
+    (url: string) => {
+      for (let i = 0; i < imageUrls.length; i++) {
+        if (url === imageUrls[i]) {
+          setImageUrls(prevImageUrls => [...prevImageUrls.slice(0, i), ...prevImageUrls.slice(i + 1)])
+          setFiles(prevFiles => [...prevFiles.slice(0, i), ...prevFiles.slice(i + 1)])
+        }
+      }
+      setError(null);
     },
     [imageUrls]
   )
@@ -108,7 +97,7 @@ export default function MyImages() {
           <button
             className="absolute top-0 right-0 text-white bg-red-500 rounded-full"
             style={{width: '1.0rem', height: '1.0rem', fontSize: '0.65rem'}}
-            onClick={() => onCacelClick(index)}>
+            onClick={() => onCacelClick(url)}>
             X
           </button>
         </div>
@@ -129,7 +118,7 @@ export default function MyImages() {
 
         <div
           onClick={onDivClick}
-          className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500"
+          className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500 rounded-md"
           style={{width: '10rem', height: '2rem'}}>
           {loading && (
             <div className="flex items-center justify-center">
@@ -137,10 +126,7 @@ export default function MyImages() {
             </div>
           )}
 
-          <div
-            onDragOver={onDivDragOver}
-            onDrop={onDivDrop}
-            className="flex flex-col items-center h-40 mt-1 cursor-pointer">
+          <div className="flex flex-col items-center h-40 mt-1 cursor-pointer">
             <p className="text-sm">이미지 파일 가져오기</p>
           </div>
           <input
@@ -154,7 +140,6 @@ export default function MyImages() {
           />
         </div>
       </div>
-
       <div className="flex flex-wrap justify-center mt-2">{images}</div>
     </section>
   )

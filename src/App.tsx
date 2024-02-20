@@ -1,9 +1,29 @@
+import { useMemo, useState } from 'react'
 import Info from './pages/Info'
 import MyImages from './pages/MyImages'
 import Result from './pages/Result'
-import {Div, Title} from './components'
+import {Div} from './components'
 
 export default function App() {
+
+  const pColors = useMemo(
+    () => [
+      '봄 웜 라이트',
+      '봄 웜 브라이트',
+      '여름 쿨 라이트',
+      '여름 쿨 뮤트',
+      '가을 웜 뮤트',
+      '가을 웜 딥',
+      '겨울 쿨 딥',
+      '겨울 쿨 브라이트',
+      '모름'
+    ],
+    []
+  )
+  const [selectedColor, setSelectedColor] = useState<string>(pColors[0])
+  
+  const [files, setFiles] = useState<File[]>([]);
+
   return (
     <main
       style={{
@@ -30,7 +50,7 @@ export default function App() {
           minWidth="280px"
           height="95%"
           style={{borderRight: '1px solid gray'}}>
-          <Info />
+          <Info selectedColor={selectedColor} setSelectedColor={setSelectedColor}/>
         </Div>
         {/* 2번 구역 태그 */}
         <Div
@@ -38,7 +58,7 @@ export default function App() {
           minWidth="500px"
           height="95%"
           style={{borderRight: '1px solid gray'}}>
-          <MyImages />
+          <MyImages files={files} setFiles={setFiles}/>
         </Div>
         {/* 3번 구역 태그 */}
         <Div
