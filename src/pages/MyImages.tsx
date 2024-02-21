@@ -5,19 +5,16 @@ import {Title, Div, Subtitle} from '../components'
 import {imageFileReaderP} from '../utils'
 import axios from 'axios'
 
-
-type filesState = {files: File[], setFiles: React.Dispatch<React.SetStateAction<File[]>>};
+type filesState = {files: File[]; setFiles: React.Dispatch<React.SetStateAction<File[]>>}
 
 export default function MyImages({files, setFiles}: filesState) {
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const [error, setError] = useState<Error | null>(null)
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false)
 
   const inputRef = useRef<HTMLInputElement>(null)
   const onDivClick = useCallback(() => inputRef.current?.click(), [])
 
-
-  
   // 이미지를 업로드할 때 호출
   const uploadImage = async (imageFile: File) => {
     const formData = new FormData()
@@ -43,28 +40,26 @@ export default function MyImages({files, setFiles}: filesState) {
 
   // 이미지를 업로드할 때 호출하는 함수
   const onImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    const input_files = Array.from(e.target.files!);
+    const input_files = Array.from(e.target.files!)
 
     if (input_files.length + files.length > 9) {
-      setError(new Error('이미지는 최대 9개까지만 추가할 수 있습니다!'));
-    }
-    else {
-      setError(null);
+      setError(new Error('이미지는 최대 9개까지만 추가할 수 있습니다!'))
+    } else {
+      setError(null)
 
       // add urls
-      const promises = input_files.map(imageFileReaderP);
-      setLoading(true);
+      const promises = input_files.map(imageFileReaderP)
+      setLoading(true)
       Promise.all(promises)
-      .then(urls => {
-        setImageUrls(prevImageUrls => [...prevImageUrls, ...urls]);
-        setFiles(prevFiles => [...prevFiles, ...input_files])
-        setLoading(false);
-      })
-      .catch(setError)
-      .finally(() => setLoading(false));
-
+        .then(urls => {
+          setImageUrls(prevImageUrls => [...prevImageUrls, ...urls])
+          setFiles(prevFiles => [...prevFiles, ...input_files])
+          setLoading(false)
+        })
+        .catch(setError)
+        .finally(() => setLoading(false))
     }
-    e.target.value = "";
+    e.target.value = ''
   }
 
   /* 이미지 업로드 취소 기능 추가하기 */
@@ -72,11 +67,14 @@ export default function MyImages({files, setFiles}: filesState) {
     (url: string) => {
       for (let i = 0; i < imageUrls.length; i++) {
         if (url === imageUrls[i]) {
-          setImageUrls(prevImageUrls => [...prevImageUrls.slice(0, i), ...prevImageUrls.slice(i + 1)])
+          setImageUrls(prevImageUrls => [
+            ...prevImageUrls.slice(0, i),
+            ...prevImageUrls.slice(i + 1)
+          ])
           setFiles(prevFiles => [...prevFiles.slice(0, i), ...prevFiles.slice(i + 1)])
         }
       }
-      setError(null);
+      setError(null)
     },
     [imageUrls]
   )
@@ -85,13 +83,13 @@ export default function MyImages({files, setFiles}: filesState) {
   const images = useMemo(
     () =>
       imageUrls.map((url, index) => (
-        <div key={index} className="relative m-2">
+        <div key={index} className="relative m-2 mt-6">
           {/* 이미지 파일 태그 */}
           <Div
             src={url}
             className="bg-transparent bg-center bg-no-repeat bg-contain"
-            width="7rem"
-            height="7rem"
+            width="9rem"
+            height="9rem"
           />
           {/* 취소 버튼 태그 */}
           <button
@@ -111,14 +109,14 @@ export default function MyImages({files, setFiles}: filesState) {
         <Title>당신의 사진</Title>
         <Subtitle>(최대 9개까지 넣을 수 있어용)</Subtitle>
         {error && (
-          <div className="flex items-center justify-center p-4 mt-4 bg-red-200">
+          <div className="flex items-center justify-center p-4 mt-4 mr-4 bg-red-200">
             <p className="text-base text-red-500 text-bold">{error.message}</p>
           </div>
         )}
 
         <div
           onClick={onDivClick}
-          className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500 rounded-md"
+          className="w-full mt-6 ml-4 bg-gray-300 border border-gray-500 rounded-md"
           style={{width: '10rem', height: '2rem'}}>
           {loading && (
             <div className="flex items-center justify-center">
@@ -140,7 +138,7 @@ export default function MyImages({files, setFiles}: filesState) {
           />
         </div>
       </div>
-      <div className="flex flex-wrap justify-center mt-2">{images}</div>
+      <div className="flex flex-wrap justify-center mt-6 mr-4">{images}</div>
     </section>
   )
 }

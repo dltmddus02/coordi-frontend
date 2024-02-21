@@ -14,12 +14,12 @@ export default function Result() {
 
   const encodeFileToBase64 = (image: File) => {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = (event: any) => resolve(event.target.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
+      const reader = new FileReader()
+      reader.readAsDataURL(image)
+      reader.onload = (event: any) => resolve(event.target.result)
+      reader.onerror = error => reject(error)
+    })
+  }
 
   const uploadTop3Image = () => {
     axios
@@ -63,8 +63,8 @@ export default function Result() {
                 {/* 이미지 url 가져오기 */}
                 <img
                   src={upper_path}
-                  width={100}
-                  height={100}
+                  width={170}
+                  height={170}
                   alt={`Upper ${index + 1}`}
                 />
                 {/* 구매링크 가져오기 */}
@@ -91,8 +91,8 @@ export default function Result() {
                 {/* 이미지 url 가져오기 */}
                 <img
                   src={lower_path}
-                  width={100}
-                  height={100}
+                  width={170}
+                  height={170}
                   alt={`Lower ${index + 1}`}
                 />
                 {/* 구매링크 가져오기 */}
