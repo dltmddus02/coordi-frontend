@@ -1,14 +1,14 @@
 import {useMemo, useCallback} from 'react'
 import type {ChangeEvent} from 'react'
 import {Title, Subtitle} from '../components'
-// import axios, {formToJSON} from 'axios'
-import axios from 'axios'
+import RadioInput from '../components/RadioInput'
 
-type colorState = {selectedColor: string, setSelectedColor: any}
-export default function Info({selectedColor, setSelectedColor} : colorState) {
+type props = {color: string, setColor: React.Dispatch<React.SetStateAction<string>>, gender: string, setGender: React.Dispatch<React.SetStateAction<string>>}
+export default function Info({color, setColor, gender, setGender} : props) {
   /* 퍼스널컬러 배열 설정 */
   const pColors = useMemo(
     () => [
+      '모름',
       '봄 웜 라이트',
       '봄 웜 브라이트',
       '여름 쿨 라이트',
@@ -17,81 +17,49 @@ export default function Info({selectedColor, setSelectedColor} : colorState) {
       '가을 웜 딥',
       '겨울 쿨 딥',
       '겨울 쿨 브라이트',
-      '모름'
     ],
     []
-  )
+  );
+  const genders = useMemo(
+    () => [
+      '남자',
+      '여자',
+    ],
+    []
+  );
 
-  const colorMapping: {[key: string]: string} = {
-    '봄 웜 라이트': 'WSL',
-    '봄 웜 브라이트': 'WSB',
-    '여름 쿨 라이트': 'CSL',
-    '여름 쿨 뮤트': 'CSM',
-    '가을 웜 뮤트': 'WAM',
-    '가을 웜 딥': 'WAD',
-    '겨울 쿨 딥': 'CWD',
-    '겨울 쿨 브라이트': 'CWB'
-  }
+  const onGenderChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setGender(e.target.value);
+  }, [setGender]);
 
-  /* 사용자가 선택한 버튼을 확인하기 위한 변수들 */
-  // const [selectedColor, setSelectedColor] = useState<string>(pColors[0])
+  const onColorChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setColor(e.target.value);
+  }, [setColor])
 
-  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setSelectedColor(e.target.value)
-  }, [])
+  const genderRadioInputs = useMemo(
+    () => genders.map((label, index) => <RadioInput key={index} group="gender" label={label} value={gender} onChange={onGenderChange}/>),
+    [gender, genders, onGenderChange]
+  );
 
-  const sendRowIndexToBackend = async (row: string) => {
-    console.log(row)
-    const colorIdentifier = colorMapping[row]
-    console.log(colorIdentifier)
-    try {
-      const formData = new FormData()
-      formData.append('personal_color', colorIdentifier)
-      console.log(formData)
-      const response = await axios.post('/api/upload/', formData, {
-        headers: {'Content-Type': 'multipart/form-data'}
-      })
-      console.log('성공', response.data)
-    } catch (e) {
-      console.error('백엔드로 퍼컬 정보 전송 오류!', e)
-    }
-  }
-
-  /* 라디오 버튼 생성 */
-  const radioInputs = useMemo(
-    () =>
-      pColors.map((value, index) => (
-        <label key={index} className="flex justify-start cursor-pointer label">
-          <input
-            type="radio"
-            name="colors"
-            className="mr-2 radio radio-primary"
-            style={{width: '1rem', height: '1rem'}}
-            checked={value === selectedColor}
-            defaultValue={value}
-            onChange={onChange}
-          />
-          <span className="text-xs label-text">{value}</span>
-        </label>
-      )),
-    [pColors, selectedColor, onChange]
-  )
+  const colorRadioInputs = useMemo(
+    () => pColors.map((label, index) => <RadioInput key={index} group="color" label={label} value={color} onChange={onColorChange}/>),
+    [pColors, color, onColorChange]
+  );
 
   /* 결과 반환 */
   return (
     <section className="mt-4 ml-4">
-      <Title>퍼스널컬러 정보</Title>
-      <div className="flex flex-col mt-4">
-        <Subtitle>Selected: {selectedColor}</Subtitle>
+      <Title>성별</Title>
+      <div className="flex flex-col p-4">
+        {genderRadioInputs}
       </div>
-      <div className="flex flex-col p-4 mt-4">
-        {radioInputs.map((row, rowIndex) => (
-          <div
-            key={rowIndex}
-            className="font-semibold">
-            {row}
-          </div>
-        ))}
+
+      <Title>퍼스널컬러 정보</Title>
+      {/* <div className="flex flex-col mt-4">
+        <Subtitle>Selected: {selectedColor}</Subtitle>
+      </div> */}
+      <div className="flex flex-col p-4">
+        {colorRadioInputs}
       </div>
     </section>
   )

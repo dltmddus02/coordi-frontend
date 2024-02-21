@@ -6,23 +6,25 @@ import {Div} from './components'
 
 export default function App() {
 
-  const pColors = useMemo(
-    () => [
-      '봄 웜 라이트',
-      '봄 웜 브라이트',
-      '여름 쿨 라이트',
-      '여름 쿨 뮤트',
-      '가을 웜 뮤트',
-      '가을 웜 딥',
-      '겨울 쿨 딥',
-      '겨울 쿨 브라이트',
-      '모름'
-    ],
-    []
-  )
-  const [selectedColor, setSelectedColor] = useState<string>(pColors[0])
-  
+  const [color, setColor] = useState<string>("모름");
   const [files, setFiles] = useState<File[]>([]);
+  const [gender, setGender] = useState<string>("");
+
+  const colorMapping: {[key: string]: string} = {
+    '모름': '',
+    '봄 웜 라이트': 'WSL',
+    '봄 웜 브라이트': 'WSB',
+    '여름 쿨 라이트': 'CSL',
+    '여름 쿨 뮤트': 'CSM',
+    '가을 웜 뮤트': 'WAM',
+    '가을 웜 딥': 'WAD',
+    '겨울 쿨 딥': 'CWD',
+    '겨울 쿨 브라이트': 'CWB',
+  };
+  const genderMapping : {[key: string]: string} = {
+    '남자': 'M',
+    '여자': 'F',
+  };
 
   return (
     <main
@@ -50,7 +52,11 @@ export default function App() {
           minWidth="280px"
           height="95%"
           style={{borderRight: '1px solid gray'}}>
-          <Info selectedColor={selectedColor} setSelectedColor={setSelectedColor}/>
+          <Info 
+            color={color} 
+            setColor={setColor}
+            gender={gender}
+            setGender={setGender}/>
         </Div>
         {/* 2번 구역 태그 */}
         <Div
@@ -58,7 +64,9 @@ export default function App() {
           minWidth="500px"
           height="95%"
           style={{borderRight: '1px solid gray'}}>
-          <MyImages files={files} setFiles={setFiles}/>
+          <MyImages 
+            files={files} 
+            setFiles={setFiles}/>
         </Div>
         {/* 3번 구역 태그 */}
         <Div
@@ -67,7 +75,10 @@ export default function App() {
           height="95%"
           //style={{borderRight: '1px solid gray'}}
         >
-          <Result />
+          <Result 
+            gender={gender}
+            color={color}
+            files={files}/>
         </Div>
       </div>
     </main>
