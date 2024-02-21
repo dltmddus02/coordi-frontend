@@ -3,7 +3,9 @@ import {Title, Subtitle} from '../components'
 import * as D from '../data'
 import axios from 'axios'
 
-export default function Result() {
+type props = {gender: string, color: string, files: File[]}
+
+export default function Result({gender, color, files}: props) {
   const [resultData, setResultData] = useState({
     k: 0, // 상위 k개
     upper: [], // 상의 이미지 주소
@@ -21,24 +23,28 @@ export default function Result() {
     });
   };
 
-  const uploadTop3Image = () => {
-    axios
-      .get('http://127.0.0.1:8000/api/result/')
-      .then(response => {
-        console.log('여기왔음')
-        setResultData({
-          k: response.data.k,
-          upper: response.data.topk_upper,
-          lower: response.data.topk_lower,
-          upper_shopping: response.data.topk_shopping_upper,
-          lower_shopping: response.data.topk_shopping_lower
-        })
-        console.log(response.data)
-        // 데이터 화면에 표시
+  const getRecommend = async () => {
+    try {
+      const images = await Promise.all(files.map(encodeFileToBase64))
+
+      const response = await axios.post('http://127.0.0.1:8000/api/result/', {
+        gender: gender,
+        color: color,
+        images: images
       })
-      .catch(error => {
-        console.error('Error fetching data:', error)
+
+      setResultData({
+        k: response.data.k,
+        upper: response.data.topk_upper,
+        lower: response.data.topk_lower,
+        upper_shopping: response.data.topk_shopping_upper,
+        lower_shopping: response.data.topk_shopping_lower
       })
+      console.log(response.data)
+    }
+    catch (error) {
+      console.error('Error fetching data:', error)
+    }
   }
 
   return (
@@ -46,9 +52,7 @@ export default function Result() {
       <Title>추천 코디</Title>
       <button
         type="submit"
-        onClick={async () => {
-          await uploadTop3Image()
-        }}
+        onClick={getRecommend}
         className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500 rounded-md"
         style={{width: '13rem', height: '2rem'}}>
         <p className="text-sm">결과를 보려면 클릭해주세요!</p>
