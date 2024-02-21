@@ -24,6 +24,16 @@ export default function Result({gender, color, files}: props) {
   };
 
   const getRecommend = async () => {
+    if (gender === '') {
+      alert('성별을 선택해주세요.')
+      return
+    }
+
+    if (files.length === 0) {
+      alert('파일을 선택해해주세요.')
+      return
+    }
+
     try {
       const images = await Promise.all(files.map(encodeFileToBase64))
 
