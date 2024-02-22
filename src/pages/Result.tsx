@@ -16,10 +16,10 @@ export default function Result({gender, color, files}: props) {
 
   const encodeFileToBase64 = (image: File) => {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = (event: any) => resolve(event.target.result);
-      reader.onerror = (error) => reject(error);
+      const reader = new FileReader()
+      reader.readAsDataURL(image)
+      reader.onload = (event: any) => resolve(event.target.result)
+      reader.onerror = (error) => reject(error)
     });
   };
 
@@ -63,7 +63,7 @@ export default function Result({gender, color, files}: props) {
       <button
         type="submit"
         onClick={getRecommend}
-        className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500 rounded-md"
+        className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500 rounded-md hover:bg-gray-400"
         style={{width: '13rem', height: '2rem'}}>
         <p className="text-sm">결과를 보려면 클릭해주세요!</p>
       </button>
@@ -77,8 +77,8 @@ export default function Result({gender, color, files}: props) {
                 {/* 이미지 url 가져오기 */}
                 <img
                   src={upper_path}
-                  width={100}
-                  height={100}
+                  width={170}
+                  height={170}
                   alt={`Upper ${index + 1}`}
                 />
                 {/* 구매링크 가져오기 */}
@@ -105,8 +105,8 @@ export default function Result({gender, color, files}: props) {
                 {/* 이미지 url 가져오기 */}
                 <img
                   src={lower_path}
-                  width={100}
-                  height={100}
+                  width={170}
+                  height={170}
                   alt={`Lower ${index + 1}`}
                 />
                 {/* 구매링크 가져오기 */}
