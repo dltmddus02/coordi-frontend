@@ -93,7 +93,7 @@ export default function MyImages({files, setFiles}: filesState) {
           />
           {/* 취소 버튼 태그 */}
           <button
-            className="absolute top-0 right-0 text-white bg-red-500 rounded-full"
+            className="absolute top-0 right-0 text-white bg-red-500 rounded-full hover:bg-red-700"
             style={{width: '1.0rem', height: '1.0rem', fontSize: '0.65rem'}}
             onClick={() => onCacelClick(url)}>
             X
@@ -116,7 +116,7 @@ export default function MyImages({files, setFiles}: filesState) {
 
         <div
           onClick={onDivClick}
-          className="w-full mt-6 ml-4 bg-gray-300 border border-gray-500 rounded-md"
+          className="w-full mt-6 ml-4 bg-gray-300 border border-gray-500 rounded-md hover:bg-gray-400"
           style={{width: '10rem', height: '2rem'}}>
           {loading && (
             <div className="flex items-center justify-center">

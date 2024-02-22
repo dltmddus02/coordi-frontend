@@ -49,7 +49,7 @@ export default function Result() {
         onClick={async () => {
           await uploadTop3Image()
         }}
-        className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500 rounded-md"
+        className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500 rounded-md hover:bg-gray-400"
         style={{width: '13rem', height: '2rem'}}>
         <p className="text-sm">결과를 보려면 클릭해주세요!</p>
       </button>
