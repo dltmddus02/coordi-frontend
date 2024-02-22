@@ -3,7 +3,7 @@ import {Title, Subtitle} from '../components'
 import * as D from '../data'
 import axios from 'axios'
 
-type props = {gender: string, color: string, files: File[]}
+type props = {gender: string; color: string; files: File[]}
 
 export default function Result({gender, color, files}: props) {
   const [resultData, setResultData] = useState({
@@ -19,9 +19,9 @@ export default function Result({gender, color, files}: props) {
       const reader = new FileReader()
       reader.readAsDataURL(image)
       reader.onload = (event: any) => resolve(event.target.result)
-      reader.onerror = (error) => reject(error)
-    });
-  };
+      reader.onerror = error => reject(error)
+    })
+  }
 
   const getRecommend = async () => {
     if (gender === '') {
@@ -51,8 +51,7 @@ export default function Result({gender, color, files}: props) {
         lower_shopping: response.data.topk_shopping_lower
       })
       console.log(response.data)
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Error fetching data:', error)
     }
   }
@@ -67,62 +66,59 @@ export default function Result({gender, color, files}: props) {
         style={{width: '13rem', height: '2rem'}}>
         <p className="text-sm">결과를 보려면 클릭해주세요!</p>
       </button>
-      <div className="flex flex-row">
-        {/* 상의 3벌 데이터 가져오기 */}
-        {resultData.upper.map((upper_path, index) => (
-          <section key={index} className="mt-6 mr-4">
-            <div>
-              <Subtitle>상의 {index + 1}</Subtitle>
-              <p className="mt-4 ml-4">
-                {/* 이미지 url 가져오기 */}
-                <img
-                  src={upper_path}
-                  width={170}
-                  height={170}
-                  alt={`Upper ${index + 1}`}
-                />
-                {/* 구매링크 가져오기 */}
-                <div className="mt-3 text-sm font-bold">
-                  <a
+      <div className="flex flex-col">
+        {/* 상하의 전체 태그 */}
+        <span className="flex flex-row">
+          {/* 상의 태그 */}
+          {/* 상의 3벌 데이터 가져오기 */}
+          {resultData.upper.map((upper_path, index) => (
+            <section key={index} className="mt-6 mr-4">
+              <div>
+                <Subtitle>상의 Top.{index + 1}</Subtitle>
+                <p className="mt-4 ml-4">
+                  <a // 구매링크 가져오기
                     key={index}
                     href={resultData.upper_shopping[index]}
                     target="_blank"
                     rel="noopener noreferrer">
-                    상의 링크
+                    <img // 이미지 가져오기
+                      src={upper_path}
+                      width={150}
+                      height={150}
+                      alt={`Upper ${index + 1}`}
+                    />
                   </a>
-                </div>
-              </p>
-            </div>
-          </section>
-        ))}
+                </p>
+              </div>
+            </section>
+          ))}
+        </span>
 
-        {/* 하의 3벌 데이터 가져오기 */}
-        {resultData.lower.map((lower_path, index) => (
-          <section key={index} className="mt-6 mr-4">
-            <div>
-              <Subtitle>하의 {index + 1}</Subtitle>
-              <p className="mt-4 ml-4">
-                {/* 이미지 url 가져오기 */}
-                <img
-                  src={lower_path}
-                  width={170}
-                  height={170}
-                  alt={`Lower ${index + 1}`}
-                />
-                {/* 구매링크 가져오기 */}
-                <div className="mt-3 text-sm font-bold">
-                  <a
+        <span className="flex flex-row">
+          {/* 하의 태그 */}
+          {/* 하의 3벌 데이터 가져오기 */}
+          {resultData.lower.map((lower_path, index) => (
+            <section key={index} className="flex flex-row mt-6 mr-4">
+              <div>
+                <Subtitle>하의 Top.{index + 1}</Subtitle>
+                <p className="mt-4 ml-4">
+                  <a // 구매링크 가져오기
                     key={index}
                     href={resultData.lower_shopping[index]}
                     target="_blank"
                     rel="noopener noreferrer">
-                    하의 링크
+                    <img // 이미지 url 가져오기
+                      src={lower_path}
+                      width={170}
+                      height={170}
+                      alt={`Lower ${index + 1}`}
+                    />
                   </a>
-                </div>
-              </p>
-            </div>
-          </section>
-        ))}
+                </p>
+              </div>
+            </section>
+          ))}
+        </span>
       </div>
     </main>
   )
