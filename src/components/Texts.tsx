@@ -15,7 +15,7 @@ export const Title: FC<TitleProps> = ({
   ...props
 }) => {
   const className = makeClassName(
-    'font-bold text-xl whitespace-pre-line ml-3',
+    'font-bold text-xl text-gray-600 whitespace-pre-line ml-3',
     _className,
     numberOfLines
   )

@@ -1,6 +1,5 @@
-import type {ChangeEvent, DragEvent} from 'react'
+import type {ChangeEvent} from 'react'
 import {useState, useRef, useCallback, useMemo} from 'react'
-import {useToggle} from '../hooks'
 import {Title, Div, Subtitle} from '../components'
 import {imageFileReaderP} from '../utils'
 import axios from 'axios'
@@ -106,7 +105,7 @@ export default function MyImages({files, setFiles}: filesState) {
   return (
     <section className="mt-4">
       <div className="ml-4">
-        <Title>당신의 사진</Title>
+        <Title>Step 3. 당신의 사진</Title>
         <Subtitle>(최대 9개까지 넣을 수 있어용)</Subtitle>
         {error && (
           <div className="flex items-center justify-center p-4 mt-4 mr-4 bg-red-200">
@@ -116,7 +115,8 @@ export default function MyImages({files, setFiles}: filesState) {
 
         <div
           onClick={onDivClick}
-          className="w-full mt-6 ml-4 bg-gray-300 border border-gray-500 rounded-md hover:bg-gray-400"
+          //className="w-full mt-6 ml-4 bg-gray-300 border border-gray-500 rounded-md hover:bg-gray-400"
+          className="bg-green-400 btn btn-outline-primary"
           style={{width: '10rem', height: '2rem'}}>
           {loading && (
             <div className="flex items-center justify-center">
@@ -138,7 +138,7 @@ export default function MyImages({files, setFiles}: filesState) {
           />
         </div>
       </div>
-      <div className="flex flex-wrap justify-center mt-6 mr-4">{images}</div>
+      <div className="flex flex-wrap justify-center mt-2 mr-4">{images}</div>
     </section>
   )
 }

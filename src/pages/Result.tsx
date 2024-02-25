@@ -1,6 +1,5 @@
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import {Title, Subtitle} from '../components'
-import * as D from '../data'
 import axios from 'axios'
 
 type props = {gender: string; color: string; files: File[]}
@@ -13,6 +12,22 @@ export default function Result({gender, color, files}: props) {
     upper_shopping: [],
     lower_shopping: []
   })
+
+  const colorMapping: {[key: string]: string} = {
+    모름: '모름',
+    '봄 웜 라이트': 'WSL',
+    '봄 웜 브라이트': 'WSB',
+    '여름 쿨 라이트': 'CSL',
+    '여름 쿨 뮤트': 'CSM',
+    '가을 웜 뮤트': 'WAM',
+    '가을 웜 딥': 'WAD',
+    '겨울 쿨 딥': 'CWD',
+    '겨울 쿨 브라이트': 'CWB'
+  }
+  const genderMapping: {[key: string]: string} = {
+    남자: 'male',
+    여자: 'female'
+  }
 
   const encodeFileToBase64 = (image: File) => {
     return new Promise((resolve, reject) => {
@@ -38,8 +53,8 @@ export default function Result({gender, color, files}: props) {
       const images = await Promise.all(files.map(encodeFileToBase64))
 
       const response = await axios.post('http://127.0.0.1:8000/api/result/', {
-        gender: gender,
-        color: color,
+        gender: genderMapping[gender],
+        color: colorMapping[color],
         images: images
       })
 
