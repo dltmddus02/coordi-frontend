@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {Title, Subtitle} from '../components'
+import {Title} from '../components'
 import axios from 'axios'
 import '../style.css'
 import '../navigate.css'
@@ -79,15 +79,14 @@ export default function Result({gender, color, files}: props) {
   }
 
   return (
-    <main className="flex flex-row mt-8 ml-5">
+    <main className="flex flex-row mt-8 ml-6">
       {/* 제목과 버튼 태그 */}
-      <div className="mr-10">
+      <div className="mt-2 ml-2 mr-10">
         <Title>추천 코디</Title>
         <button
           type="submit"
           onClick={getRecommend}
-          //className="w-full mt-4 ml-4 bg-gray-300 border border-gray-500 rounded-md hover:bg-gray-400"
-          className="mt-8 ml-4 btn btn-outline"
+          className="mt-8 ml-3 btn btn-outline"
           style={{width: '16rem', height: '2rem'}}>
           <p className="text-base font-extrabold">결과를 보려면 클릭해주세요!</p>
         </button>
@@ -95,7 +94,7 @@ export default function Result({gender, color, files}: props) {
 
       {/* 나머지 태그 */}
       {resultData.upper.length > 0 && ( // 결과 버튼 누르면 네비게이션 탭 표시
-        <div className="flex flex-col mt-8 ml-10">
+        <div className="flex flex-col ml-7">
           {/* 네비게이션 탭 생성 */}
           <ul role="tablist" className="flex flex-row">
             <li
@@ -146,7 +145,9 @@ export default function Result({gender, color, files}: props) {
               width: '1280px',
               height: '35vh',
               display: activeTab === 'upper' ? 'flex' : 'none',
-              flexDirection: 'row'
+              flexDirection: 'row',
+              //alignItems: 'center',
+              justifyContent: 'center'
             }}>
             <div
               className={`tab-pane-2 ${activeTab === 'upper' ? 'active' : ''} `}
@@ -156,25 +157,55 @@ export default function Result({gender, color, files}: props) {
               {resultData.upper.map((upper_path, index) => (
                 <div
                   //className="border border-blue-700"
-                  style={{width: '200px', height: '200px', marginRight: '40px'}}>
+                  style={{
+                    width: '214px',
+                    height: '214px',
+                    marginLeft: '17px',
+                    marginRight: '17px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                    //justifyContent: 'center'
+                  }}>
                   <p
-                    className="flex flex-row mt-4 ml-4 "
-                    style={{width: '100%', height: '100%', objectFit: 'cover'}}>
+                    className="flex mt-5"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      //alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
                     <img // 이미지 가져오기
                       key={index}
                       src={upper_path}
                       alt={`Upper ${index + 1}`}
                     />
                   </p>
-                  <p className="mt-4 ml-4">
+                  <button
+                    className="mt-4 border btn"
+                    style={{
+                      borderColor: 'lightblue',
+                      borderRadius: '15px',
+                      boxShadow: '3px 4px 10px rgba(128, 128, 128, 0.4)',
+                      backgroundColor: 'lightblue',
+                      width: '140px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
                     <a // 구매링크 가져오기
                       key={index}
                       href={resultData.upper_shopping[index]}
                       target="_blank"
-                      rel="noopener noreferrer">
-                      구매링크
+                      rel="noopener noreferrer"
+                      style={{
+                        color: '#fff',
+                        fontSize: '1.2em'
+                      }}>
+                      구매 링크
                     </a>
-                  </p>
+                  </button>
                 </div>
               ))}
             </div>
@@ -188,7 +219,8 @@ export default function Result({gender, color, files}: props) {
               width: '1280px',
               height: '35vh',
               display: activeTab === 'lower' ? 'flex' : 'none',
-              flexDirection: 'row'
+              flexDirection: 'row',
+              justifyContent: 'center'
             }}>
             <div
               className={`tab-pane-2 ${activeTab === 'lower' ? 'active' : ''}`}
@@ -196,88 +228,62 @@ export default function Result({gender, color, files}: props) {
               id="lower"
               style={{display: 'flex', flexDirection: 'row'}}>
               {resultData.lower.map((lower_path, index) => (
-                <div style={{width: '200px', height: '200px', marginRight: '40px'}}>
+                <div
+                  style={{
+                    width: '214px',
+                    height: '214px',
+                    marginLeft: '17px',
+                    marginRight: '17px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                    //justifyContent: 'center'
+                  }}>
                   <p
-                    className="flex flex-row mt-4 ml-4"
-                    style={{width: '100%', height: '100%', objectFit: 'cover'}}>
+                    className="flex mt-5"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      justifyContent: 'center'
+                    }}>
                     <img // 이미지 가져오기
                       key={index}
                       src={lower_path}
                       alt={`Lower ${index + 1}`}
                     />
                   </p>
-                  <p className="mt-4 ml-4">
+                  <button
+                    className="mt-4 border btn"
+                    style={{
+                      borderColor: 'lightblue',
+                      borderRadius: '15px',
+                      boxShadow: '3px 4px 10px rgba(128, 128, 128, 0.4)',
+                      backgroundColor: 'lightblue',
+                      width: '140px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
                     <a // 구매링크 가져오기
                       key={index}
                       href={resultData.lower_shopping[index]}
                       target="_blank"
-                      rel="noopener noreferrer">
-                      구매링크
+                      rel="noopener noreferrer"
+                      style={{
+                        color: '#fff',
+                        fontSize: '1.2em'
+                        //fontWeight: 'bold'
+                      }}>
+                      구매 링크
                     </a>
-                  </p>
+                  </button>
                 </div>
               ))}
             </div>
           </div>
         </div>
       )}
-
-      {/* 상하의 전체 태그 
-      <div className="flex flex-row">
-        {/* 상의 태그 
-        <span className="flex flex-row">
-          {/* 상의 3벌 데이터 가져오기 
-          {resultData.upper.map((upper_path, index) => (
-            <section key={index} className="mt-6 mr-4">
-              <div>
-                <Subtitle>상의 Top.{index + 1}</Subtitle>
-                <p className="mt-4 ml-4">
-                  <a // 구매링크 가져오기
-                    key={index}
-                    href={resultData.upper_shopping[index]}
-                    target="_blank"
-                    rel="noopener noreferrer">
-                    <img // 이미지 가져오기
-                      src={upper_path}
-                      width={150}
-                      height={150}
-                      alt={`Upper ${index + 1}`}
-                    />
-                  </a>
-                </p>
-              </div>
-            </section>
-          ))}
-        </span>
-        
-
-        {/* 하의 태그
-        <span className="flex flex-row">
-          {/* 하의 3벌 데이터 가져오기 
-          {resultData.lower.map((lower_path, index) => (
-            <section key={index} className="flex flex-row mt-6 mr-4">
-              <div>
-                <Subtitle>하의 Top.{index + 1}</Subtitle>
-                <p className="mt-4 ml-4">
-                  <a // 구매링크 가져오기
-                    key={index}
-                    href={resultData.lower_shopping[index]}
-                    target="_blank"
-                    rel="noopener noreferrer">
-                    <img // 이미지 url 가져오기
-                      src={lower_path}
-                      width={170}
-                      height={170}
-                      alt={`Lower ${index + 1}`}
-                    />
-                  </a>
-                </p>
-              </div>
-            </section>
-          ))}
-        </span>
-      
-      </div>*/}
     </main>
   )
 }

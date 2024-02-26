@@ -62,7 +62,7 @@ export default function MyImages({files, setFiles}: filesState) {
     e.target.value = ''
   }
 
-  /* 이미지 업로드 취소 기능 추가하기 */
+  /* 이미지 업로드 취소 기능 추가 */
   const onCacelClick = useCallback(
     (url: string) => {
       for (let i = 0; i < imageUrls.length; i++) {
@@ -118,7 +118,6 @@ export default function MyImages({files, setFiles}: filesState) {
 
         <div
           onClick={onDivClick}
-          //className="w-full mt-6 ml-4 bg-gray-300 border border-gray-500 rounded-md hover:bg-gray-400"
           className="mt-5 ml-4 btn btn-outline"
           style={{width: '12rem', height: '1rem'}}>
           {loading && (
