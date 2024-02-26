@@ -3,6 +3,7 @@ import {useState, useRef, useCallback, useMemo} from 'react'
 import {Title, Div, Subtitle} from '../components'
 import {imageFileReaderP} from '../utils'
 import axios from 'axios'
+import '../style.css'
 
 type filesState = {files: File[]; setFiles: React.Dispatch<React.SetStateAction<File[]>>}
 
@@ -103,29 +104,31 @@ export default function MyImages({files, setFiles}: filesState) {
   )
 
   return (
-    <section className="mt-4">
-      <div className="ml-4">
-        <Title>Step 3. 당신의 사진</Title>
-        <Subtitle>(최대 9개까지 넣을 수 있어용)</Subtitle>
+    <section className="mt-8">
+      <div className="ml-5">
+        <div className="flex flex-row">
+          <Title>Step 3. 당신의 사진</Title>
+          <Subtitle>(최대 9개까지 넣을 수 있어용)</Subtitle>
+        </div>
         {error && (
-          <div className="flex items-center justify-center p-4 mt-4 mr-4 bg-red-200">
-            <p className="text-base text-red-500 text-bold">{error.message}</p>
+          <div className="flex items-center justify-center p-2 mt-4 mr-4 bg-red-200">
+            <p className="text-base font-bold text-red-500">{error.message}</p>
           </div>
         )}
 
         <div
           onClick={onDivClick}
           //className="w-full mt-6 ml-4 bg-gray-300 border border-gray-500 rounded-md hover:bg-gray-400"
-          className="bg-green-400 btn btn-outline-primary"
-          style={{width: '10rem', height: '2rem'}}>
+          className="mt-5 ml-4 btn btn-outline"
+          style={{width: '12rem', height: '2rem'}}>
           {loading && (
             <div className="flex items-center justify-center">
               <button className="btn btn-circle loading"></button>
             </div>
           )}
 
-          <div className="flex flex-col items-center h-40 mt-1 cursor-pointer">
-            <p className="text-sm">이미지 파일 가져오기</p>
+          <div className="flex flex-col items-center h-40 mt-2 cursor-pointer">
+            <p className="text-base font-extrabold">이미지 파일 가져오기</p>
           </div>
           <input
             ref={inputRef}

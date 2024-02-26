@@ -10,28 +10,13 @@ export default function App() {
   const [files, setFiles] = useState<File[]>([])
   const [gender, setGender] = useState<string>('')
 
-  const [isHovered, setIsHovered] = useState<boolean>(false)
-
-  const handleHover = () => {
-    setIsHovered(true)
-  }
-
-  const handleMouseLeave = () => {
-    setIsHovered(false)
-  }
-
   return (
-    <main //일단 놔두자,,
-      style={
-        {
-          //backgroundColor: '#F8E4E1'
-        }
-      }>
+    <main>
       {/* 상단바 태그 */}
       <figure
         style={{
           width: '1903px',
-          height: '44vh',
+          height: '35vh',
           position: 'relative'
           //display: 'flex',
           //alignItems: 'center',
@@ -74,12 +59,12 @@ export default function App() {
             zIndex: 1,
             color: '#fff',
             fontFamily: 'Arial',
-            fontSize: '100px',
-            //fontWeight: 'bold',
+            fontSize: '80px',
+            fontWeight: 600,
             position: 'relative',
             textAlign: 'center',
-            top: '140px',
-            right: '280px',
+            top: '110px',
+            right: '440px',
             opacity: 0.9
           }}>
           코디 추천해드립니당
@@ -92,49 +77,30 @@ export default function App() {
         style={{
           backgroundColor: 'rgba(248, 228, 225, 0.6)',
           width: '1903px',
-          height: '56vh',
+          height: '65vh',
           justifyContent: 'center',
           alignItems: 'center',
           overflowY: 'auto'
         }}>
         {/* 1번 구역 태그 */}
         <Div
-          //width="280px"
-          //minWidth="280px"
           width="15%"
-          height="95%"
-          className="ml-2 bg-white border rounded-md border-rose-100"
-          style={
-            {
-              //opacity: 0.7,
-            }
-          }
-          onMouseEnter={handleHover}
-          onMouseLeave={handleMouseLeave}
-          //style={{borderRight: '1px solid gray'}}
-        >
+          height="90%"
+          className="bg-white border rounded-md mr-9 border-rose-100">
           <Gender gender={gender} setGender={setGender} />
         </Div>
         {/* 2번 구역 태그 */}
         <Div
-          //width="280px"
-          //minWidth="280px"
           width="20%"
-          height="95%"
-          className="ml-5 bg-white border rounded-md border-rose-100"
-          //style={{borderRight: '1px solid gray'}}
-        >
+          height="90%"
+          className="bg-white border rounded-md mr-9 border-rose-100">
           <PColor color={color} setColor={setColor} />
         </Div>
         {/* 3번 구역 태그 */}
         <Div
-          //width="500px"
-          //minWidth="500px"
           width="50%"
-          height="95%"
-          className="ml-5 bg-white border rounded-md border-rose-100"
-          //style={{borderRight: '1px solid gray'}}
-        >
+          height="90%"
+          className="bg-white border rounded-md border-rose-100">
           <MyImages files={files} setFiles={setFiles} />
         </Div>
       </main>

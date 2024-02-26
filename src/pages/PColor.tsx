@@ -45,7 +45,7 @@ export default function PColor({color, setColor}: props) {
 
   /* 결과 반환 */
   return (
-    <section className="mt-5 ml-4">
+    <section className="mt-8 ml-5">
       <Title>Step 2. 퍼스널컬러</Title>
       {/* <div className="flex flex-col mt-4">
         <Subtitle>Selected: {selectedColor}</Subtitle>

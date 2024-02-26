@@ -32,7 +32,7 @@ export default function Gender({gender, setGender}: props) {
 
   /* 결과 반환 */
   return (
-    <section className="mt-5 ml-4">
+    <section className="mt-8 ml-5">
       <Title>Step 1. 성별</Title>
       <div className="flex flex-col p-4 mt-3">{genderRadioInputs}</div>
     </section>
