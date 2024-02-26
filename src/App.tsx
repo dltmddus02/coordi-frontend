@@ -12,7 +12,7 @@ export default function App() {
 
   return (
     <main>
-      {/* 상단바 태그 */}
+      {/* 배너 태그 (figure) */}
       <figure
         style={{
           width: '1903px',
@@ -37,7 +37,7 @@ export default function App() {
           }}
         />
         */}
-        {/* 배경 비디오 태그 */}
+        {/* 배경 비디오 태그 (video) */}
         <video
           autoPlay
           loop
@@ -53,7 +53,7 @@ export default function App() {
             left: 0,
             zIndex: -1
           }}></video>
-        {/* 제목 태그 */}
+        {/* 제목 태그 (p) */}
         <p
           style={{
             zIndex: 1,
@@ -71,7 +71,7 @@ export default function App() {
         </p>
       </figure>
 
-      {/* 메인 태그 */}
+      {/* 메인 태그 (main) */}
       <main
         className="flex"
         style={{
@@ -82,21 +82,21 @@ export default function App() {
           alignItems: 'center',
           overflowY: 'auto'
         }}>
-        {/* 1번 구역 태그 */}
+        {/* 1번 구역 태그 (Div) */}
         <Div
           width="15%"
           height="90%"
-          className="bg-white border rounded-md mr-9 border-rose-100">
+          className="bg-white border rounded-md mr-11 border-rose-100">
           <Gender gender={gender} setGender={setGender} />
         </Div>
-        {/* 2번 구역 태그 */}
+        {/* 2번 구역 태그 (Div) */}
         <Div
           width="20%"
           height="90%"
-          className="bg-white border rounded-md mr-9 border-rose-100">
+          className="bg-white border rounded-md mr-11 border-rose-100">
           <PColor color={color} setColor={setColor} />
         </Div>
-        {/* 3번 구역 태그 */}
+        {/* 3번 구역 태그 (Div) */}
         <Div
           width="50%"
           height="90%"
@@ -105,22 +105,21 @@ export default function App() {
         </Div>
       </main>
 
-      {/* 결과 부분 태그 */}
+      {/* 결과 부분 태그 (section) */}
       <section
         className="flex"
         style={{
           backgroundColor: 'rgba(248, 228, 225, 0.6)',
           width: '1903px',
-          height: '53vh',
+          height: '55vh',
+          justifyContent: 'center',
           alignItems: 'center',
           overflowY: 'auto'
         }}>
         <Div
-          width="500px"
-          minWidth="500px"
-          height="95%"
-          //style={{borderRight: '1px solid gray'}}
-        >
+          width="90%"
+          height="90%"
+          className="bg-white border rounded-md border-rose-100">
           <Result gender={gender} color={color} files={files} />
         </Div>
       </section>

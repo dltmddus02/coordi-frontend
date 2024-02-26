@@ -120,7 +120,7 @@ export default function MyImages({files, setFiles}: filesState) {
           onClick={onDivClick}
           //className="w-full mt-6 ml-4 bg-gray-300 border border-gray-500 rounded-md hover:bg-gray-400"
           className="mt-5 ml-4 btn btn-outline"
-          style={{width: '12rem', height: '2rem'}}>
+          style={{width: '12rem', height: '1rem'}}>
           {loading && (
             <div className="flex items-center justify-center">
               <button className="btn btn-circle loading"></button>
