@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {Title} from '../components'
+import {Title, Div} from '../components'
 import axios from 'axios'
 import '../style.css'
 import '../navigate.css'
@@ -12,7 +12,9 @@ export default function Result({gender, color, files}: props) {
     upper: [], // 상의 이미지 주소
     lower: [], // 하의 이미지 주소
     upper_shopping: [],
-    lower_shopping: []
+    lower_shopping: [],
+    upper_title: [], // 경진 추가!!
+    lower_title: [] // 경진 추가!!
   })
 
   const [activeTab, setActiveTab] = useState('upper')
@@ -70,7 +72,9 @@ export default function Result({gender, color, files}: props) {
         upper: response.data.topk_upper,
         lower: response.data.topk_lower,
         upper_shopping: response.data.topk_shopping_upper,
-        lower_shopping: response.data.topk_shopping_lower
+        lower_shopping: response.data.topk_shopping_lower,
+        upper_title: response.data.topk_title_upper, // 경진 추가!!
+        lower_title: response.data.topk_title_lower // 경진 추가!!
       })
       console.log(response.data)
     } catch (error) {
@@ -157,6 +161,7 @@ export default function Result({gender, color, files}: props) {
               {resultData.upper.map((upper_path, index) => (
                 <div
                   //className="border border-blue-700"
+                  key={index}
                   style={{
                     width: '214px',
                     height: '214px',
@@ -167,7 +172,7 @@ export default function Result({gender, color, files}: props) {
                     alignItems: 'center'
                     //justifyContent: 'center'
                   }}>
-                  <p
+                  <p // 이미지 태그
                     className="flex mt-5"
                     style={{
                       width: '100%',
@@ -182,8 +187,19 @@ export default function Result({gender, color, files}: props) {
                       alt={`Upper ${index + 1}`}
                     />
                   </p>
-                  <button
-                    className="mt-4 border btn"
+                  <Div // 순위와 제품명 태그
+                    minHeight="150px"
+                    className="flex flex-col justify-center mt-2 font-bold"
+                    style={{alignItems: 'center'}}>
+                    <p className="text-xl">{index + 1}위</p>
+                    <Div // 제품명 가져오기
+                      minHeight="110px"
+                      className="flex mt-1 text-center">
+                      {resultData.upper_title[index]}
+                    </Div>
+                  </Div>
+                  <button // 구매링크 태그
+                    className="border "
                     style={{
                       borderColor: 'lightblue',
                       borderRadius: '15px',
@@ -201,7 +217,8 @@ export default function Result({gender, color, files}: props) {
                       rel="noopener noreferrer"
                       style={{
                         color: '#fff',
-                        fontSize: '1.2em'
+                        //fontSize: '1.2em'
+                        fontSize: '1.05em'
                       }}>
                       구매 링크
                     </a>
@@ -239,7 +256,7 @@ export default function Result({gender, color, files}: props) {
                     alignItems: 'center'
                     //justifyContent: 'center'
                   }}>
-                  <p
+                  <p // 이미지 태그
                     className="flex mt-5"
                     style={{
                       width: '100%',
@@ -253,8 +270,19 @@ export default function Result({gender, color, files}: props) {
                       alt={`Lower ${index + 1}`}
                     />
                   </p>
-                  <button
-                    className="mt-4 border btn"
+                  <Div // 순위와 제품명 태그
+                    minHeight="150px"
+                    className="flex flex-col justify-center mt-2 font-bold"
+                    style={{alignItems: 'center'}}>
+                    <p className="text-xl">{index + 1}위</p>
+                    <Div // 제품명 가져오기
+                      minHeight="110px"
+                      className="flex mt-1 text-center">
+                      {resultData.lower_title[index]}
+                    </Div>
+                  </Div>
+                  <button // 구매링크 태그
+                    className="border"
                     style={{
                       borderColor: 'lightblue',
                       borderRadius: '15px',
@@ -272,7 +300,8 @@ export default function Result({gender, color, files}: props) {
                       rel="noopener noreferrer"
                       style={{
                         color: '#fff',
-                        fontSize: '1.2em'
+                        //fontSize: '1.2em'
+                        fontSize: '1.05em'
                         //fontWeight: 'bold'
                       }}>
                       구매 링크

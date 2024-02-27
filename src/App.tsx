@@ -111,7 +111,7 @@ export default function App() {
         style={{
           backgroundColor: 'rgba(248, 228, 225, 0.6)',
           width: '1903px',
-          height: '55vh',
+          height: '63vh',
           justifyContent: 'center',
           alignItems: 'center',
           overflowY: 'auto'
