@@ -18,6 +18,8 @@ export default function Result({gender, color, files}: props) {
   })
 
   const [activeTab, setActiveTab] = useState('upper')
+  const [isLoading, setIsLoading] = useState<boolean>(false) // 로딩!
+
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId)
   }
@@ -58,6 +60,8 @@ export default function Result({gender, color, files}: props) {
       return
     }
 
+    setIsLoading(true) // 로딩!
+
     try {
       const images = await Promise.all(files.map(encodeFileToBase64))
 
@@ -79,6 +83,8 @@ export default function Result({gender, color, files}: props) {
       console.log(response.data)
     } catch (error) {
       console.error('Error fetching data:', error)
+    } finally {
+      setIsLoading(false) // 86줄부터 로딩!
     }
   }
 
@@ -91,8 +97,13 @@ export default function Result({gender, color, files}: props) {
           type="submit"
           onClick={getRecommend}
           className="mt-8 ml-3 btn btn-outline"
-          style={{width: '16rem', height: '2rem'}}>
-          <p className="text-base font-extrabold">결과를 보려면 클릭해주세요!</p>
+          style={{width: '16rem', height: '2rem'}}
+          // 로딩!
+          disabled={isLoading}>
+          <p className="text-base font-extrabold">
+            {/* 로딩! */}
+            {isLoading ? '사진을 불러오는 중입니다.' : '결과를 보려면 클릭해주세요!'}
+          </p>
         </button>
       </div>
 
